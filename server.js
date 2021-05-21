@@ -1,3 +1,6 @@
+// use 'npm run devStart' to start server
+
+
 const express = require('express')
 // const expressGraphQL = require('express-graphql')
 const {graphqlHTTP} = require("express-graphql");
