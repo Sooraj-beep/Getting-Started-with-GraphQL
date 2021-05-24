@@ -81,7 +81,7 @@ const RootQueryType = new GraphQLObjectType({
             args: {
                 id: {type: GraphQLInt}
             },
-            resolve: (parent, args) => items.find(book => book.id === args.id) // basically acts as a return function of the fields, this is what lets you see the defined field types on the localhost
+            resolve: (parent, args) => items.find(singleItem => singleItem.id === args.id) // basically acts as a return function of the fields, this is what lets you see the defined field types on the localhost
 
         },
         items: {
@@ -107,13 +107,26 @@ const RootMutationType = new GraphQLObjectType({
             description: 'Add an Item',
             args: {
                 name: {type: GraphQLNonNull(GraphQLString)},
-                ownerId: {type: GraphQLNonNull(GraphQLInt)}
+                ownerId: {type: GraphQLNonNull(GraphQLInt)},
             },
             resolve: (parent, args) => {
                 const item = {id: items.length + 1, name: args.name, ownerId: args.ownerId}
                 items.push(item)
                 return item
             }   
+        },
+
+        deleteItem: {
+            type: ItemType,
+            description: 'Delete an Item',
+            args: {
+                id: {type: GraphQLNonNull(GraphQLInt)}
+            },
+            resolve: (parent, args) => {
+                const item = items.find(element => element.id === args.id)
+                items.splice(items.indexOf(item), 1)
+                return item
+            }
         }
      })
     
